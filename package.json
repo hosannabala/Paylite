@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+     "diagnose": "npx tsc --noEmit && npx eslint . --ext .ts,.tsx && next build",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",

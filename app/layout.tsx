@@ -1,40 +1,33 @@
-import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import { ThemeProvider } from "next-themes";
 import "./globals.css";
+import Link from "next/link";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
-
-export const metadata: Metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+export const metadata = {
+  title: "Paylite – sBTC Payments",
+  description: "Seamless sBTC payments, subscriptions, and merchant tools.",
 };
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  display: "swap",
-  subsets: ["latin"],
-});
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.className} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+    <html lang="en">
+      <body>
+        {/* Top nav */}
+        <header className="border-b border-gray-100">
+          <nav className="container-page h-14 flex items-center justify-between">
+            <Link href="/" className="font-semibold text-lg">
+              Paylite <span className="text-[var(--brand)]">Payments</span>
+            </Link>
+            <div className="flex gap-3">
+              <Link href="/auth/login" className="btn-ghost">Log in</Link>
+              <Link href="/auth/sign-up" className="btn-brand">Get started</Link>
+            </div>
+          </nav>
+        </header>
+        {children}
+        <footer className="border-t border-gray-100 mt-16">
+          <div className="container-page py-10 text-xs text-gray-500">
+            © {new Date().getFullYear()} Paylite. All rights reserved.
+          </div>
+        </footer>
       </body>
     </html>
   );

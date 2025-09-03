@@ -1,51 +1,54 @@
-import { DeployButton } from "@/components/deploy-button";
-import { EnvVarWarning } from "@/components/env-var-warning";
-import { AuthButton } from "@/components/auth-button";
-import { Hero } from "@/components/hero";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { ConnectSupabaseSteps } from "@/components/tutorial/connect-supabase-steps";
-import { SignUpUserSteps } from "@/components/tutorial/sign-up-user-steps";
-import { hasEnvVars } from "@/lib/utils";
 import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col items-center">
-      <div className="flex-1 w-full flex flex-col gap-20 items-center">
-        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-          <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-            <div className="flex gap-5 items-center font-semibold">
-              <Link href={"/"}>Next.js Supabase Starter</Link>
-              <div className="flex items-center gap-2">
-                <DeployButton />
-              </div>
-            </div>
-            {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
-          </div>
-        </nav>
-        <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5">
-          <Hero />
-          <main className="flex-1 flex flex-col gap-6 px-4">
-            <h2 className="font-medium text-xl mb-4">Next steps</h2>
-            {hasEnvVars ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-          </main>
+    <main>
+      {/* Hero */}
+      <section className="container-page py-20 text-center">
+        <h1 className="text-5xl font-bold tracking-tight">
+          Stripe-simple payments, for <span className="text-[var(--brand)]">sBTC</span>.
+        </h1>
+        <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+          Accept Bitcoin via sBTC on Stacks with links, widgets, and a lightweight API.
+          Clean merchant dashboard. Subscriptions. sBTC→USD display. Built for web2 UX.
+        </p>
+        <div className="mt-8 flex items-center justify-center gap-4">
+          <Link href="/auth/sign-up" className="btn-brand">Create free account</Link>
+          <Link href="/auth/login" className="btn-ghost">Log in</Link>
         </div>
+      </section>
 
-        <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
-          <p>
-            Powered by{" "}
-            <a
-              href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-              target="_blank"
-              className="font-bold hover:underline"
-              rel="noreferrer"
-            >
-              Supabase
-            </a>
+      {/* Value props */}
+      <section className="container-page grid grid-cols-1 md:grid-cols-3 gap-6 pb-20">
+        {[
+          { t: "Payment Links", d: "Share a link, get paid in sBTC. No code required." },
+          { t: "Drop-in Widget", d: "Embed a secure, branded checkout in minutes." },
+          { t: "Subscriptions", d: "Simple recurring charges with webhooks & receipts." },
+        ].map((x) => (
+          <div key={x.t} className="card p-6">
+            <div className="h-10 w-10 rounded-lg bg-[var(--brand)]/10 text-[var(--brand)] grid place-items-center font-bold">
+              {x.t[0]}
+            </div>
+            <h3 className="mt-4 font-semibold">{x.t}</h3>
+            <p className="text-gray-600 mt-1">{x.d}</p>
+          </div>
+        ))}
+      </section>
+
+      {/* CTA */}
+      <section className="container-page my-10 text-center">
+        <div className="card p-10">
+          <h2 className="text-2xl font-semibold">
+            Ready to accept <span className="text-[var(--brand)]">sBTC</span> today?
+          </h2>
+          <p className="text-gray-600 mt-2">
+            Works on testnet, production-ready patterns. Non-custodial merchant flow.
           </p>
-          <ThemeSwitcher />
-        </footer>
-      </div>
+          <div className="mt-6">
+            <Link href="/auth/sign-up" className="btn-brand">Start free</Link>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

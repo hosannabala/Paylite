@@ -1,29 +1,21 @@
-import Link from "next/link";
-import { Button } from "./ui/button";
-import { createClient } from "@/lib/supabase/server";
-import { LogoutButton } from "./logout-button";
+import Link from 'next/link';
 
-export async function AuthButton() {
-  const supabase = await createClient();
+interface AuthButtonProps {
+  href: string;
+  children: React.ReactNode;
+  variant?: 'primary' | 'default';
+}
 
-  // You can also use getUser() which will be slower.
-  const { data } = await supabase.auth.getClaims();
+export default function AuthButton({ href, children, variant = 'default' }: AuthButtonProps) {
+  const baseClasses = 'px-6 py-2 rounded font-semibold transition';
+  const variantClasses =
+    variant === 'primary'
+      ? 'bg-blue-600 text-white hover:bg-blue-700'
+      : 'bg-gray-200 text-gray-800 hover:bg-gray-300';
 
-  const user = data?.claims;
-
-  return user ? (
-    <div className="flex items-center gap-4">
-      Hey, {user.email}!
-      <LogoutButton />
-    </div>
-  ) : (
-    <div className="flex gap-2">
-      <Button asChild size="sm" variant={"outline"}>
-        <Link href="/auth/login">Sign in</Link>
-      </Button>
-      <Button asChild size="sm" variant={"default"}>
-        <Link href="/auth/sign-up">Sign up</Link>
-      </Button>
-    </div>
+  return (
+    <Link href={href} className={`${baseClasses} ${variantClasses}`}>
+      {children}
+    </Link>
   );
 }
